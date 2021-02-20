@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package go.micro.srv.httpclient;
+
+
+service Httpclient {
+    rpc HttpRequest(Request) return (Response) {}
+}
