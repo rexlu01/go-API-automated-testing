@@ -26,6 +26,7 @@ func (g *Mweb) Anything(c *gin.Context) {
 func main() {
 	service := web.NewService(
 		web.Name("go.micro.web.sendmweb"),
+		web.Address(":8081"), //指定micro web端口号
 	)
 
 	service.Init()
