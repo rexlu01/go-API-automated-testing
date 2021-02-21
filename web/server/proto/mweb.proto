@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package go.micro.srv.sendmweb;
+
+service Mweb {
+	rpc SendMweb(TryRequest) returns (TryRespons) {}
+}
+
+message TryRequest {
+	string name = 1;
+}
+
+message TryRespons {
+	string msg = 1;
+}
