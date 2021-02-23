@@ -16,6 +16,6 @@ go 实现针对Http(后续加grpc协议)接口的自动化测试和压测工具�
 * 发送请求的方法按照协议http or grpc分开写，写个接口统一起来，方便以后扩展。
 * 过程数据用Redis and  Mysql存储
 * 前端页面用micro web+gin, gin主要和前端HTML交互， micro web指定端口号（感觉不需要再暴露一层micro api --handler=http）
-
+* 需要解决两个问题：1 压测要按时长跑（https://www.jb51.net/article/128532.htm） 2 html要实时展示性能指标折线图 （http://www.360doc.com/content/20/0419/09/33093582_906988529.shtml）
 ### 未完待续ing...
 
