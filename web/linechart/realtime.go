@@ -9,6 +9,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/mem"
 
@@ -44,6 +45,7 @@ func (m *Monitor) Collect() {
 		log.Fatal(err)
 	}
 
+	//这里是个互斥锁
 	m.Lock.Lock()
 	defer m.Lock.Unlock()
 
@@ -109,7 +111,7 @@ func (m *Monitor) WriteTo(w io.Writer) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("index.html")
+	t, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -122,17 +124,11 @@ func image(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", index)
-	mux.HandleFunc("/image", image)
+	router := gin.Default()
+	router.GET("/", gin.WrapF(index))
+	router.GET("/image", gin.WrapF(image))
 
 	go monitor.Run()
 
-	s := &http.Server{
-		Addr:    ":8080",
-		Handler: mux,
-	}
-	if err := s.ListenAndServe(); err != nil {
-		log.Fatal(err)
-	}
+	router.Run(":8082")
 }

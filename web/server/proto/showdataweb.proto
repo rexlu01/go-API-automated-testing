@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package go.micro.srv.ShowData;
+
+service ShowData {
+	rpc GetDataCrontab(TryRequest) returns (TryRespons) {}
+}
+
+message TryRequest {
+	int64 flag = 1;
+}
+
+message TryRespons {
+	bool crontabres = 1;
+	string msg = 2;
+}
