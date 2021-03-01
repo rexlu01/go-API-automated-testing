@@ -1,77 +1,48 @@
-/* 前端页面实时展现CPU和内存的数据画折线图，just demo 需要改*/
 package main
 
 import (
-	"html/template"
+	"context"
+	pb "go-api-automated-testing/web/server/proto"
 	"io"
 	"log"
 	"net/http"
 	"sync"
-	"time"
+	"text/template"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/mem"
-
+	"github.com/micro/go-micro/v2/client"
+	"github.com/micro/go-micro/v2/web"
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
 	"gonum.org/v1/plot/plotutil"
 	"gonum.org/v1/plot/vg"
 )
 
-type Monitor struct {
-	Mem       []float64
-	CPU       []float64
-	MaxRecord int
-	Lock      sync.Mutex
-}
+type ShowData struct{}
 
-func NewMonitor(max int) *Monitor {
-	return &Monitor{
-		MaxRecord: max,
-	}
-}
+var (
+	cl  pb.ShowDataService
+	Mut sync.Mutex
+)
 
-var monitor = NewMonitor(50)
+func WriteTo(w io.Writer) {
+	//flag := c.Param("flag")
 
-func (m *Monitor) Collect() {
-	mem, err := mem.VirtualMemory()
-	if err != nil {
-		log.Fatal(err)
-	}
+	response, err := cl.GetDataCrontab(context.TODO(), &pb.TryRequest{
+		Flag: "1",
+	})
 
-	cpu, err := cpu.Percent(500*time.Millisecond, false)
-	if err != nil {
-		log.Fatal(err)
-	}
+	Mut.Lock()
+	defer Mut.Unlock()
 
-	//这里是个互斥锁
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	m.Mem = append(m.Mem, mem.UsedPercent)
-	m.CPU = append(m.CPU, cpu[0])
-}
-
-func (m *Monitor) Run() {
-	for {
-		m.Collect()
-		time.Sleep(500 * time.Millisecond)
-	}
-}
-
-func (m *Monitor) WriteTo(w io.Writer) {
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	cpuData := make(plotter.XYs, len(m.CPU))
-	for i, p := range m.CPU {
+	cpuData := make(plotter.XYs, len(response.CPU))
+	for i, p := range response.CPU {
 		cpuData[i].X = float64(i + 1)
 		cpuData[i].Y = p
 	}
 
-	memData := make(plotter.XYs, len(m.Mem))
-	for i, p := range m.Mem {
+	memData := make(plotter.XYs, len(response.Mem))
+	for i, p := range response.Mem {
 		memData[i].X = float64(i + 1)
 		memData[i].Y = p
 	}
@@ -99,7 +70,7 @@ func (m *Monitor) WriteTo(w io.Writer) {
 	p.Legend.Add("mem", memLine)
 
 	p.X.Min = 0
-	p.X.Max = float64(m.MaxRecord)
+	p.X.Max = float64(50)
 	p.Y.Min = 0
 	p.Y.Max = 100
 
@@ -120,15 +91,37 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func image(w http.ResponseWriter, r *http.Request) {
-	monitor.WriteTo(w)
+	WriteTo(w)
+}
+
+func (g *ShowData) GetDataCrontab(c *gin.Context) {
+	log.Print("Received Say.Anything API request")
+
+	c.JSON(200, map[string]string{
+		"message": "Hi, this is the Greeter API",
+	})
+
 }
 
 func main() {
+	service := web.NewService(
+		web.Name("go.micro.web.showdata"),
+		web.Address(":8081"), //指定micro web端口号
+	)
+
+	service.Init()
+
+	cl = pb.NewShowDataService("go.micro.srv.showdata", client.DefaultClient)
+
 	router := gin.Default()
 	router.GET("/", gin.WrapF(index))
 	router.GET("/image", gin.WrapF(image))
 
-	go monitor.Run()
+	service.Handle("/router", router)
+
+	if err := service.Run(); err != nil {
+		log.Fatal(err)
+	}
 
 	router.Run(":8082")
 }

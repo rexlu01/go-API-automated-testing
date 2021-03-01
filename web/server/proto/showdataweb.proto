@@ -7,10 +7,10 @@ service ShowData {
 }
 
 message TryRequest {
-	int64 flag = 1;
+	string flag = 1;
 }
 
 message TryRespons {
-	repeated int64 Mem = 1;
-	repeated int64 CPU = 2;
+	repeated double Mem = 1;
+	repeated double CPU = 2;
 }

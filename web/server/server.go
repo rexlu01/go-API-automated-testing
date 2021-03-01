@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/mem"
 
@@ -20,6 +20,8 @@ type ShowData struct{}
 // 	CPU []float64
 // )
 
+var Mut sync.Mutex
+
 // func Run() {
 // 	for {
 // 		Collect()
@@ -27,10 +29,7 @@ type ShowData struct{}
 // 	}
 // }
 
-func Collect() ([]float64, []float64) {
-	var Mem []float64
-	var CPU []float64
-
+func Collect() (Mem []float64, CPU []float64) {
 	mem, err := mem.VirtualMemory()
 	if err != nil {
 		log.Fatal(err)
@@ -42,8 +41,8 @@ func Collect() ([]float64, []float64) {
 	}
 
 	//这里是个互斥锁
-	(*sync.Mutex).Lock.Lock()
-	defer (*sync.Mutex).Lock.Unlock()
+	Mut.Lock()
+	defer Mut.Unlock()
 
 	Mem = append(Mem, mem.UsedPercent)
 	CPU = append(CPU, cpu[0])
@@ -51,7 +50,7 @@ func Collect() ([]float64, []float64) {
 }
 
 func (g *ShowData) GetDataCrontab(ctx context.Context, req *pb.TryRequest, rsp *pb.TryRespons) error {
-	if req.Flag == 1 {
+	if req.Flag == "1" {
 		rsp.Mem, rsp.CPU = Collect()
 	} else {
 		rsp.Mem, rsp.CPU = nil, nil
@@ -66,6 +65,8 @@ func main() {
 		micro.RegisterInterval(time.Second*3),
 	)
 	service.Init()
+
+	// Register Handlers
 	pb.RegisterShowDataHandler(service.Server(), new(ShowData))
 
 	if err := service.Run(); err != nil {
