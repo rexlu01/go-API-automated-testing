@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+
+package go.micro.srv.processdata;
+
+service StoreData {
+	rpc Store(StoreRequest) returns (StoreRespons) {}
+}
+
+message StoreRequest {
+	string dataBase = 1;
+    repeated google.protobuf.Any details = 2;
+}
+
+message StoreRespons {
+	int64 dataId = 1;
+	string message = 2;
+}
+
