@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-api-automated-testing/common"
 	"go-api-automated-testing/config"
@@ -18,6 +19,9 @@ func main() {
 	if err != nil {
 		fmt.Println("loacl config fail")
 	}
-	fmt.Printf("kv :%v", value)
+	var configMysql common.MysqlConfig
+	if err := json.Unmarshal(value, &configMysql); err == nil {
+		fmt.Println(configMysql.Charset)
+	}
 
 }

@@ -11,11 +11,12 @@ import (
 )
 
 type MysqlConfig struct {
-	Name     string
+	UserName string
 	Password string
 	Host     string
-	Port     string
+	Post     string
 	Database string
+	Charset  string
 }
 
 type RedisConfig struct {
@@ -28,7 +29,7 @@ type RedisConfig struct {
 
 //初始化mysql连接
 func ConnMysql(config *MysqlConfig) *sql.DB {
-	mysqlpath := strings.Join([]string{config.Name, ":", config.Password, "@tcp(", config.Host, ":", config.Port, ")/", config.Database, "?charset=utf8"}, "")
+	mysqlpath := strings.Join([]string{config.UserName, ":", config.Password, "@tcp(", config.Host, ":", config.Post, ")/", config.Database, "?charset=" + config.Charset}, "")
 	MysqlConn, _ := sql.Open("mysql", mysqlpath)
 	//设置数据库最大连接数
 	MysqlConn.SetConnMaxLifetime(10)
