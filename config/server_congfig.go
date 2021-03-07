@@ -7,7 +7,7 @@ import (
 )
 
 type Localserver struct {
-	consulAddress string
+	ConsulAddress string
 }
 
 var ConsulAdd Localserver
