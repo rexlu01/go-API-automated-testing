@@ -7,6 +7,9 @@ import (
 	"go-api-automated-testing/common"
 	"go-api-automated-testing/config"
 	pb "go-api-automated-testing/data/server/proto"
+
+	"github.com/golang/protobuf/ptypes"
+	"google.golang.org/protobuf/proto"
 )
 
 type StoreData struct {
@@ -14,9 +17,10 @@ type StoreData struct {
 
 func (g *StoreData) Store(ctx context.Context, req *pb.StoreRequest, rsp *pb.StoreRespons) error {
 	//这里写拿到处理好的数据往数据库里存
-	testdata := []string{"1.1", "1.2"}
+	var d proto.Message
+	details, err := ptypes.MarshalAny(d)
 
-	req.Details = testdata
+	req.Details = details
 	return nil
 }
 func main() {
