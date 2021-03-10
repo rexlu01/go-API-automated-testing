@@ -19,6 +19,9 @@ func (g *StoreData) Store(ctx context.Context, req *pb.StoreRequest, rsp *pb.Sto
 	//这里写拿到处理好的数据往数据库里存
 	var d proto.Message
 	details, err := ptypes.MarshalAny(d)
+	if err != nil {
+		panic(err)
+	}
 
 	req.Details = details
 	return nil
