@@ -121,10 +121,10 @@ func main() {
 	router.GET("/image", gin.WrapF(image))
 
 	service.Handle("/router", router)
+	router.Run(":8082")
 
 	if err := service.Run(); err != nil {
 		log.Fatal(err)
 	}
 
-	//router.Run(":8082")
 }
