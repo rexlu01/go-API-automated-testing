@@ -42,12 +42,12 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 		c.JSON(500, err)
 	}
 
-	c.HTML(200, "login.html", gin.H{"title": response})
+	c.HTML(200, "index.html", gin.H{"title": response})
 
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("html/login.html")
+	t, err := template.ParseFiles("html/monitor.html")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -74,7 +74,7 @@ func main() {
 	mweb := new(Fweb)
 
 	ginRouter := gin.Default()
-	ginRouter.LoadHTMLGlob("html/*")
+	ginRouter.LoadHTMLGlob("html/index.html")
 
 	ginRouter.GET("/sendmweb", mweb.Anything)
 	ginRouter.GET("/sendmweb/:name", mweb.SendMweb)
