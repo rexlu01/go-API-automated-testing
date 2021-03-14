@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"sync"
 	"text/template"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/v2/client"
@@ -106,6 +107,8 @@ func (g *ShowData) GetDataCrontab(c *gin.Context) {
 func main() {
 	service := web.NewService(
 		web.Name("go.micro.web.showdata"),
+		web.RegisterTTL(time.Second*3),
+		web.RegisterInterval(time.Second*3),
 		web.Address(":8081"), //指定micro web端口号
 	)
 
@@ -123,5 +126,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	router.Run(":8082")
+	//router.Run(":8082")
 }
