@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package go.micro.srv.frontweb;
+
+service Fweb {
+	rpc MakeWeb(FrontRequest) returns (FrontRespons) {}
+}
+
+message FrontRequest {
+	string name = 1;
+}
+
+message FrontRespons {
+	string msg = 1;
+}
