@@ -23,13 +23,6 @@ var (
 
 var monit mon.Monitor
 
-func (g *Fweb) Anything(c *gin.Context) {
-	log.Print("Received Say.Anything API request")
-	c.JSON(200, map[string]string{
-		"message": "Hi, this is the Greeter API",
-	})
-}
-
 func (g *Fweb) SendMweb(c *gin.Context) {
 	log.Print("Received Start.SendMessage API Request")
 	name := c.Param("name")
@@ -43,7 +36,6 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 	}
 
 	c.HTML(200, "index.html", gin.H{"title": response})
-
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -74,9 +66,8 @@ func main() {
 	mweb := new(Fweb)
 
 	ginRouter := gin.Default()
-	ginRouter.LoadHTMLGlob("html/index.html")
+	ginRouter.LoadHTMLGlob("html/*")
 
-	ginRouter.GET("/sendmweb", mweb.Anything)
 	ginRouter.GET("/sendmweb/:name", mweb.SendMweb)
 
 	ginRouter.GET("/monit", gin.WrapF(Index))
