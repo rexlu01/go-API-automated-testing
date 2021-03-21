@@ -6,16 +6,15 @@
 	  <link rel="stylesheet" href="../static/css/main.css" />
 	  <noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
       <meta charset="UTF-8">
-      <script type="text/javascript">
-      function del(obj){
-        var trId = obj.parentNode.parentNode.parentNode;
-        trId.parentNode.removeChild(trId);
-      }
-
-    </script>
  </head>
+ <script type="text/javascript">
+    function del(obj){
+      var trId = obj.parentNode.parentNode.id;
+      var objtr=document.getElementById(trId);
+      document.getElementById('tbodyid').removeChild(objtr);
+    }
+</script>
 <body> 
-
     <!--- Wrapper -->
         <div id="Wrapper">
 
@@ -64,38 +63,37 @@
                                     </select>
                                 </div>
                                 <!-- Break -->
-                                <tr>
-                                <div  class="col-5 col-12-xsmall">
-                                    <h3 >Request Body</h3>
-                                    <input type="email" autofocus="autofocus" name="demo-key1" id="demo-key1" value="" placeholder="key1" />
-                                </div>
-                                <div class="col-5 col-12-xsmall">
-                                    <h3 style="visibility:hidden;">pass</h3>
-                                    <input type="email" name="demo-vaule1" id="demo-vaule1" value="" placeholder="value1" />
-                                </div>
-                                <div class="col-2 col-12-xsmall">
-                                    <h3 style="visibility:hidden;">pass</h3>
-                                    <button class="icon has-tooltip" data-original-titel="null">
-                                        <!--<i class="meterial-icons">delete</i>-->
-                                        <a href="javascript:;" onclick="del(this);">delete</a>
-                                    </button>
-                                </div>
-                                </tr>
+                                <tbody id = "tbodyid">
+                                    <tr id = "tr122">
+                                        <td>
+                                            <div  class="col-5 col-12-xsmall">
+                                                <h3 >Request Body</h3>
+                                                <input type="email" autofocus="autofocus" name="demo-key1" id="demo-key1" value="" placeholder="key1" />
+                                            </div>
+                                        <td>
+                                        <td>
+                                            <div class="col-5 col-12-xsmall">
+                                                <h3 style="visibility:hidden;">pass</h3>
+                                                <input type="email" name="demo-vaule1" id="demo-vaule1" value="" placeholder="value1" />
+                                            </div>
+                                        <td>
+                                        <td>
+                                            <div class="col-2 col-12-xsmall">
+                                                <h3 style="visibility:hidden;">pass</h3>
+                                                <!--<button class="icon has-tooltip" data-original-titel="null">-->
+                                                    <!--<i class="meterial-icons">delete</i>-->
+                                                    <!-- <a href="javascript:;" onclick="del(this);">delete</a>
+                                                </button>-->
+                                                <button type="button" onclick="del(this)">delete</button>
+                                            </div>
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+               
                      
-                                <div class="col-12 col-12-xsmall" style="text-align:center;">
-                                    <button class="icon has-tooltip" name="addrequets" onclick="add()"> 
-                                        <i class="material-icons">add New</i>
-                                        <span>+</span>
-                                    </button>
-                                </div>
+  
                                 <!-- Add New-->
-                                <div class="col-2 col-12-xsmall">
-                                    <h3 style="visibility:hidden;">pass</h3>
-                                    <button class="icon has-tooltip" data-original-titel="null">
-                                        <i class="material-icons">delete</i>
-                                    </button>
-                                </div>
-
                                 <div class="col-4 col-12-small">
                                     <input type="radio" id="demo-priority-low" name="demo-priority" checked>
                                     <label for="demo-priority-low">Low</label>
