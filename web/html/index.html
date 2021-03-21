@@ -16,27 +16,47 @@
 				<footer id="footer">
 					<section>
                         <ul class="icons alt">
-                            <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                            <li><a href="https://github.com/rexlu01/go-API-automated-testing" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
                         </ul>
-                        <h3>Form</h3>
+                        <h2>Form</h2> 
                         <form method="post" action="#">
                             <div class="row gtr-uniform">
-                                <div class="col-6 col-12-xsmall">
-                                    <input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
-                                </div>
-                                <div class="col-6 col-12-xsmall">
-                                    <input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
-                                </div>
-                                <!-- Break -->
-                                <div class="col-12">
-                                    <select name="demo-category" id="demo-category">
+                                <div class="col-12 col-12-xsmall">
+									<label for="name">Requests Name, eg.{{.title}}</label>
+									<input type="text" name="name" id="name" />
+								</div>
+                                <div class="col-3 col-12-xsmall">
+                                    <h3>Method</h3>
+                                    <select name="method" id="method">
                                         <option value="">- Category -</option>
-                                        <option value="1">Manufacturing</option>
-                                        <option value="1">Shipping</option>
-                                        <option value="1">Administration</option>
-                                        <option value="1">Human Resources</option>
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="HEAD">HEAD</option>
+                                        <option value="OPTIONS">OPTIONS</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="PATCH">PATCH</option>
+                                        <option value="DELETE">DELETE</option>
+                                        <option value="TRACE">TRACE</option>
+                                        <option value="CONNECT">CONNECT</option>
                                     </select>
                                 </div>
+                                <div class="col-9 col-12-xsmall">
+                                    <h3>URL</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="" placeholder="http(s)://..." />
+                                </div>
+
+                                <!-- Break -->
+                                <div class="col-12">
+                                    <h3>Content Type</h3>
+                                    <select name="demo-category" id="demo-category">
+                                        <option value="">- Category -</option>
+                                        <option value="json">application/json</option>
+                                        <option value="ld">application/ld+json</option>
+                                        <option value="hal">application/hal+json</option>
+                                        <option value="vnd.api">application/vnd.api+json</option>
+                                    </select>
+                                </div>
+                                
                                 <!-- Break -->
                                 <div class="col-4 col-12-small">
                                     <input type="radio" id="demo-priority-low" name="demo-priority" checked>
@@ -73,7 +93,7 @@
                             </div>
                         </form>
                         <hr />
-                        <h3>Social</h3>
+                        <h2>Social</h2>
 						<form method="post" action="#">
 							<div class="fields">
 								<div class="field">
