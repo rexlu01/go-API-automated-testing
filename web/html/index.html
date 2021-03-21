@@ -3,8 +3,8 @@
 <head>
     <title>GoWeb</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	<link rel="stylesheet" href="../static/css/main.css" />
+	<noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
     <meta charset="UTF-8">
 </head>
 <body> 
@@ -18,7 +18,7 @@
 						<form method="post" action="#">
 							<div class="fields">
 								<div class="field">
-									<label for="name">Name</label>
+									<label for="name">{{.title}}</label>
 									<input type="text" name="name" id="name" />
 								</div>
 								<div class="field">
@@ -43,22 +43,19 @@
 							</ul>
 						</section>
 					</section>
-				</footer>
+                </footer>
         </div>
 
-
-
-
-  <h2>{{.title}}</h2>  <!--标题--->
+ 
 
   		<!-- Scripts -->
-          <script src="../assets/js/jquery.min.js"></script>
-          <script src="../assets/js/jquery.scrollex.min.js"></script>
-          <script src="../assets/js/jquery.scrolly.min.js"></script>
-          <script src="../assets/js/browser.min.js"></script>
-          <script src="../assets/js/breakpoints.min.js"></script>
-          <script src="../assets/js/util.js"></script>
-          <script src="../assets/js/main.js"></script>
+          <script src="../static/js/jquery.min.js"></script>
+          <script src="../static/js/jquery.scrollex.min.js"></script>
+          <script src="../static/js/jquery.scrolly.min.js"></script>
+          <script src="../static/js/browser.min.js"></script>
+          <script src="../static/js/breakpoints.min.js"></script>
+          <script src="../static/js/util.js"></script>
+          <script src="../static/js/main.js"></script>
 
 </body>
 </html>

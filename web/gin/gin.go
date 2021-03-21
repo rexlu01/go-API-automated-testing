@@ -67,6 +67,8 @@ func main() {
 
 	ginRouter := gin.Default()
 	ginRouter.LoadHTMLGlob("html/*")
+	//加载静态资源
+	ginRouter.Static("/static", "./static")
 
 	ginRouter.GET("/sendmweb/:name", mweb.SendMweb)
 
