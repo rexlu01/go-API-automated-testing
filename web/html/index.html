@@ -1,170 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <title>GoWeb</title>
-	  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	  <link rel="stylesheet" href="../static/css/main.css" />
-	  <noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
-      <meta charset="UTF-8">
- </head>
- <script type="text/javascript">
-    function del(obj){
-      var trId = obj.parentNode.parentNode.id;
-      var objtr=document.getElementById(trId);
-      document.getElementById('tbodyid').removeChild(objtr);
-    }
-</script>
-<body> 
-    <!--- Wrapper -->
-        <div id="Wrapper">
-
-            	<!-- Footer -->
-				<footer id="footer">
-					<section>
-                        <ul class="icons alt">
-                            <li><a href="https://github.com/rexlu01/go-API-automated-testing" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-                        </ul>
-                        <h2>Form</h2> 
-                        <form method="post" id = "post" action="#">
-                            <div class="row gtr-uniform">
-                                <div class="col-12 col-12-xsmall">
-									<label for="name">Requests Name, eg.{{.title}}</label>
-									<input type="text" name="name" id="name" />
-								</div>
-                                <div class="col-3 col-12-xsmall">
-                                    <h3>Method</h3>
-                                    <select name="method" id="method">
-                                        <option value="">- Category -</option>
-                                        <option value="GET">GET</option>
-                                        <option value="POST">POST</option>
-                                        <option value="HEAD">HEAD</option>
-                                        <option value="OPTIONS">OPTIONS</option>
-                                        <option value="PUT">PUT</option>
-                                        <option value="PATCH">PATCH</option>
-                                        <option value="DELETE">DELETE</option>
-                                        <option value="TRACE">TRACE</option>
-                                        <option value="CONNECT">CONNECT</option>
-                                    </select>
-                                </div>
-                                <div class="col-9 col-12-xsmall">
-                                    <h3>URL</h3>
-                                    <input type="email" name="demo-url" id="demo-url" value="" placeholder="http(s)://..." />
-                                </div>
-
-                                <!-- Break -->
-                                <div class="col-12">
-                                    <h3>Content Type</h3>
-                                    <select name="demo-category" id="demo-category">
-                                        <option value="">- Category -</option>
-                                        <option value="json">application/json</option>
-                                        <option value="ld">application/ld+json</option>
-                                        <option value="hal">application/hal+json</option>
-                                        <option value="vnd.api">application/vnd.api+json</option>
-                                    </select>
-                                </div>
-                                <!-- Break -->
-                                <tbody id = "tbodyid">
-                                    <tr id = "tr122">
-                                        <td>
-                                            <div  class="col-5 col-12-xsmall">
-                                                <h3 >Request Body</h3>
-                                                <input type="email" autofocus="autofocus" name="demo-key1" id="demo-key1" value="" placeholder="key1" />
-                                            </div>
-                                        <td>
-                                        <td>
-                                            <div class="col-5 col-12-xsmall">
-                                                <h3 style="visibility:hidden;">pass</h3>
-                                                <input type="email" name="demo-vaule1" id="demo-vaule1" value="" placeholder="value1" />
-                                            </div>
-                                        <td>
-                                        <td>
-                                            <div class="col-2 col-12-xsmall">
-                                                <h3 style="visibility:hidden;">pass</h3>
-                                                <!--<button class="icon has-tooltip" data-original-titel="null">-->
-                                                    <!--<i class="meterial-icons">delete</i>-->
-                                                    <!-- <a href="javascript:;" onclick="del(this);">delete</a>
-                                                </button>-->
-                                                <button type="button" onclick="del(this)">delete</button>
-                                            </div>
-                                            
-                                        </td>
-                                    </tr>
-                                </tbody>
-               
-                     
-  
-                                <!-- Add New-->
-                                <div class="col-4 col-12-small">
-                                    <input type="radio" id="demo-priority-low" name="demo-priority" checked>
-                                    <label for="demo-priority-low">Low</label>
-                                </div>
-                                <div class="col-4 col-12-small">
-                                    <input type="radio" id="demo-priority-normal" name="demo-priority">
-                                    <label for="demo-priority-normal">Normal</label>
-                                </div>
-                                <div class="col-4 col-12-small">
-                                    <input type="radio" id="demo-priority-high" name="demo-priority">
-                                    <label for="demo-priority-high">High</label>
-                                </div>
-                                <!-- Break -->
-                                <div class="col-6 col-12-small">
-                                    <input type="checkbox" id="demo-copy" name="demo-copy">
-                                    <label for="demo-copy">Email me a copy</label>
-                                </div>
-                                <div class="col-6 col-12-small">
-                                    <input type="checkbox" id="demo-human" name="demo-human" checked>
-                                    <label for="demo-human">I am a human</label>
-                                </div>
-                                <!-- Break -->
-                                <div class="col-12">
-                                    <textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-                                </div>
-                                <!-- Break -->
-                                <div class="col-12">
-                                    <ul class="actions">
-                                        <li><input type="submit" value="Send Message" class="primary" /></li>
-                                        <li><input type="reset" value="Reset" /></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </form>
-                        <hr />
-                        <h2>Social</h2>
-						<form method="post" action="#">
-							<div class="fields">
-								<div class="field">
-									<label for="name">{{.title}}</label>
-									<input type="text" name="name" id="name" />
-								</div>
-								<div class="field">
-									<label for="email">Email</label>
-									<input type="text" name="email" id="email" />
-								</div>
-								<div class="field">
-									<label for="message">Message</label>
-									<textarea name="message" id="message" rows="3"></textarea>
-								</div>
-							</div>
-							<ul class="actions">
-								<li><input type="submit" value="Send Message" /></li>
-							</ul>
-                        </form>
-					</section>
-                </footer>
-        </div>
-
- 
-
-  		<!-- Scripts -->
-          <script src="../static/js/jquery.min.js"></script>
-          <script src="../static/js/jquery.scrollex.min.js"></script>
-          <script src="../static/js/jquery.scrolly.min.js"></script>
-          <script src="../static/js/browser.min.js"></script>
-          <script src="../static/js/breakpoints.min.js"></script>
-          <script src="../static/js/util.js"></script>
-          <script src="../static/js/main.js"></script>
-
-</body>
+  <head>
+    <title>addrow.html</title>
+      <script type="text/javascript">
+        var num = 1;
+        function addRow() {
+            var tb = document.getElementById("mytableid");
+            var row = tb.insertRow();
+            var cell = row.insertCell();
+            cell.innerText = "第" + num + "行";
+            num++;
+            cell = row.insertCell();
+            cell.innerHTML = "<input type='text' value = '新一行'>";
+        }
+        function delRow() {
+            var rowIndex = document.getElementById("delTextId").value;
+            var tb = document.getElementById("mytableid");
+            tb.deleteRow(rowIndex-1);
+        }
+    </script>
+  </head>
+  <body>
+    <table id="mytableid">
+        <!-- <tr><td>第一行</td><td>输入</td></tr> -->
+    </table>
+    
+    <input type="button" value="新增一行" onclick="addRow()" />
+    <input type="text" id="delTextId" />
+    <input type="button" value="删除选择行" onclick="delRow()" />
+  </body>
 </html>
-
-
