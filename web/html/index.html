@@ -7,6 +7,7 @@
 	  <noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
       <meta charset="UTF-8">
       <script type="text/javascript">
+
       // 编写一个函数，供添加按钮调用，动态在表格的最后一行添加子节点；
       function addOne(){         
          var tbody = document.getElementById('table');  
@@ -26,8 +27,7 @@
          tbody.appendChild(tr);   
      }
      // 创建删除函数
-     
-window.οnlοad=function removeRow(obj){
+     function removeRow(obj){
         var tbody = document.getElementById('table');  
         var tr = obj.parentNode.parentNode;
         tbody.removeChild(tr);
