@@ -3,7 +3,7 @@
    <head>
       <title>GoWeb</title>
 	  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	  <link rel="stylesheet" href="../static/css/main.css" />
+      <link rel="stylesheet" href="../static/css/main.css" />
 	  <noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
       <meta charset="UTF-8">
       <script type="text/javascript">
@@ -32,6 +32,21 @@
         var tr = obj.parentNode.parentNode;
         tbody.removeChild(tr);
     }
+    function checkradio(o,x){
+      document.getElementsByName("inptB")[x-1].checked=o.checked
+     //用访问数组的方法，访问inputB数组！
+    //点击radio进去函数
+    function operation(val) {
+	    var radioValue = val.value;
+	    if (radioValue == 1) {		//曹操
+		var sel = document.getElementById('national');
+		sel.placeholder = "魏国";
+	    }else if (radioValue == 2) {//刘备
+		var sel = document.getElementById('national');
+		sel.placeholder = "蜀国";
+	}
+}
+    placeholder
     </script>
  </head>
 <body> 
@@ -47,7 +62,7 @@
                         </ul>
                         <h2>Form</h2> 
                         <form method="post" id = "post" action="#">
-                            <div class="row gtr-uniform">
+                            div class="row gtr-uniform">
                                 <div class="col-12 col-12-xsmall">
 									<label for="name">Requests Name, eg.{{.title}}</label>
 									<input type="text" name="name" id="name" />
@@ -86,20 +101,19 @@
                                 <!-- add -->
                                 <div  class="col-5 col-12-xsmall">
                                     <h3>Request Body</h3>
-                                    <input type="email" name="demo-url" id="demo-url" value="key..."/>
+                                    <input type="email" name="demo-url" id="demo-url" placeholder="key..."/>
                                 </div>
                                 <div  class="col-5 col-12-xsmall">
                                     <h3 style="visibility:hidden;">pass</h3>
-                                    <input type="email" name="demo-url" id="demo-url" value="value..."/>
+                                    <input type="email" name="demo-url" id="demo-url" placeholder="value..."/>
                                 </div>
                                 <div  class="col-12 col-12-xsmall">
                                     <table width="100%" id="table">
-
                                     </table>
                                         <input type="button" value="add" onclick="addOne()" /> 
                                 </div>
                                 <!--switch-->
-    
+ 
                                 <!-- Add New-->
                                 <div class="col-4 col-12-small">
                                     <input type="radio" id="demo-priority-low" name="demo-priority" checked>
@@ -133,7 +147,7 @@
                                         <li><input type="reset" value="Reset" /></li>
                                     </ul>
                                 </div>
-                            <//div>div>
+                            </div>
                         </form>
                         <hr />
                         <h2>Social</h2>
