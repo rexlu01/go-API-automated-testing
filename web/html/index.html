@@ -1,38 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@rexlu01 
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-rexlu01
-/
-go-API-automated-testing
-1
-20
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-go-API-automated-testing/web/html/index.html
-@rexlu01
-rexlu01 update index.html
-Latest commit e23506b 2 days ago
- History
- 1 contributor
-173 lines (162 sloc)  8.54 KB
-  
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -91,6 +56,40 @@ Latest commit e23506b 2 days ago
         var tr = obj.parentNode.parentNode;
         tbody.removeChild(tr);
     }
+    
+    //点击redio button选择功能测试还是性能测试
+    function operation(val) {
+	var radioValue = val.value;
+	if (radioValue == 1) {		
+		var sel = document.getElementById('national');
+		sel.style= "visibility:hidden;";
+		var priolid = document.getElementById('demo-priority-low');
+		priolid.style= "visibility:hidden;";
+		var prioidnid = document.getElementById('demo-priority-normal');
+		prioidnid.style= "visibility:hidden;";
+		var timelid = document.getElementById('time-priority-low');
+		timelid.style= "visibility:hidden;";
+		var timenid = document.getElementById('time-priority-normal');
+		timenid.style= "visibility:hidden;";
+		var number = document.getElementById('numbid');
+		number.style= "visibility:hidden;";
+	}else if (radioValue == 2) {
+		var sel = document.getElementById('national');
+		sel.style="visibility:show;";
+		sel.placeholder = "次数/时长";
+		var priolid = document.getElementById('demo-priority-low');
+		priolid.style= "visibility:show;";
+		var prioidnid = document.getElementById('demo-priority-normal');
+		prioidnid.style= "visibility:show;";
+		var timelid = document.getElementById('time-priority-low');
+		timelid.style= "visibility:show;";
+		var timenid = document.getElementById('time-priority-normal');
+		timenid.style= "visibility:show;";
+		var number = document.getElementById('numbid');
+		number.style= "visibility:show;";
+	}
+
+}
     </script>
  </head>
 <body> 
@@ -172,65 +171,43 @@ Latest commit e23506b 2 days ago
                                     </table>
                                         <input type="button" value="add" onclick="addOneHeader()" /> 
                                 </div>
-
                                 <!--switch-->
-    
-                                <!-- Add New-->
-                                <div class="col-4 col-12-small">
+                                
+                                <div  class="col-6 col-12-xsmall">
+                                    <input id="a" type="radio" name="mt" value="1" onclick="operation(this);" >
+                                    <label for="a" class="mwriw_d_r"> 接口功能测试</label>
+                                </div>
+                                <div class="col-6 col-12-small">
+                                    <input id="b" type="radio" name="mt" value="2" onclick="operation(this);" checked>
+                                    <label for="b" class="mwriw_d_r"> 接口性能测试</label>
+                                </div>
+                               
+                                <!-- select  -->
+                                <div class="col-12 col-12-small">
                                     <input type="radio" id="demo-priority-low" name="demo-priority" checked>
-                                    <label for="demo-priority-low">Low</label>
+                                    <label id="time-priority-low" for="demo-priority-low">时长(s)</label>
                                 </div>
-                                <div class="col-4 col-12-small">
+                                <div class="col-12 col-12-small">
                                     <input type="radio" id="demo-priority-normal" name="demo-priority">
-                                    <label for="demo-priority-normal">Normal</label>
+                                    <label id="time-priority-normal" for="demo-priority-normal">次数(次)</label>
                                 </div>
-                                <div class="col-4 col-12-small">
-                                    <input type="radio" id="demo-priority-high" name="demo-priority">
-                                    <label for="demo-priority-high">High</label>
-                                </div>
-                                <!-- Break -->
-                                <div class="col-6 col-12-small">
-                                    <input type="checkbox" id="demo-copy" name="demo-copy">
-                                    <label for="demo-copy">Email me a copy</label>
-                                </div>
-                                <div class="col-6 col-12-small">
-                                    <input type="checkbox" id="demo-human" name="demo-human" checked>
-                                    <label for="demo-human">I am a human</label>
-                                </div>
-                                <!-- Break -->
-                                <div class="col-12">
-                                    <textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-                                </div>
-                                <!-- Break -->
+                                <div class="col-12 col-12-small">
+                                    <input type="email" name="demo-url" id="national" value=""/>
+                                </div> 
+                                <div >
+                                    <input type="email" name="numb-url" id="numbid" value="并发数.."/>
+                                </div> 
+                                <!-- submit -->
                                 <div class="col-12">
                                     <ul class="actions">
-                                        <li><input type="submit" value="Send Message" class="primary" /></li>
+                                        <li><input type="submit" value="run" class="primary" /></li>
                                         <li><input type="reset" value="Reset" /></li>
                                     </ul>
                                 </div>
                             </div>
                         </form>
                         <hr />
-                        <h2>Social</h2>
-						<form method="post" action="#">
-							<div class="fields">
-								<div class="field">
-									<label for="name">{{.title}}</label>
-									<input type="text" name="name" id="name" />
-								</div>
-								<div class="field">
-									<label for="email">Email</label>
-									<input type="text" name="email" id="email" />
-								</div>
-								<div class="field">
-									<label for="message">Message</label>
-									<textarea name="message" id="message" rows="3"></textarea>
-								</div>
-							</div>
-							<ul class="actions">
-								<li><input type="submit" value="Send Message" /></li>
-							</ul>
-                        </form>
+                    
 					</section>
                 </footer>
         </div>
