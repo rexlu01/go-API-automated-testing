@@ -67,6 +67,30 @@ Latest commit e23506b 2 days ago
         var tr = obj.parentNode.parentNode;
         tbody.removeChild(tr);
     }
+    //添加header
+    function addOneHeader(){         
+         var tbody = document.getElementById('headert');  
+         var tr = document.createElement('tr');  
+         
+         var td = document.createElement("td");
+         tr.innerHTML = "<input type='text' placeholder='key'/>";
+         tbody.appendChild(td);
+         
+         td = document.createElement("td");  
+         td.innerHTML = "<input type='text' placeholder='value'/>";
+         tr.appendChild(td);
+         
+         td = document.createElement("td"); 
+         td.innerHTML = "<a href='javascript:;' onclick='removeRowHeader(this)'>DELETE</a>";
+         tr.appendChild(td);         
+         tbody.appendChild(tr);   
+     }
+     // 创建删除函数
+     function removeRowHeader(obj){
+        var tbody = document.getElementById('headert');  
+        var tr = obj.parentNode.parentNode;
+        tbody.removeChild(tr);
+    }
     </script>
  </head>
 <body> 
@@ -133,6 +157,22 @@ Latest commit e23506b 2 days ago
                                     </table>
                                         <input type="button" value="add" onclick="addOne()" /> 
                                 </div>
+                                <!--header-->
+                                <div  class="col-5 col-12-xsmall">
+                                    <h3>header</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="key..."/>
+                                </div>
+                                <div  class="col-5 col-12-xsmall">
+                                    <h3 style="visibility:hidden;">pass</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="value..."/>
+                                </div>
+                                <div  class="col-12 col-12-xsmall">
+                                    <table width="100%" id="headert">
+
+                                    </table>
+                                        <input type="button" value="add" onclick="addOneHeader()" /> 
+                                </div>
+
                                 <!--switch-->
     
                                 <!-- Add New-->
@@ -168,7 +208,7 @@ Latest commit e23506b 2 days ago
                                         <li><input type="reset" value="Reset" /></li>
                                     </ul>
                                 </div>
-                            <//div>div>
+                            </div>
                         </form>
                         <hr />
                         <h2>Social</h2>
