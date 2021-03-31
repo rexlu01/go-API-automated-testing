@@ -13,8 +13,8 @@ message SendRequest {
 	string requestURL = 2;
 	string requestMethod = 3;
 	string contentType = 4;
-	body<string, string> map = 5; 
-	header<string, string> map = 6;
+	map<string, string> body = 5; 
+	map<string, string> header = 6;
 	bool isPress = 7;
 	string runTime = 8;
 	string runTimes = 9;
