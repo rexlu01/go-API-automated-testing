@@ -1,0 +1,26 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+
+package go.micro.srv.requestapi;
+
+service ReqApi {
+	RAPI (SendRequest) returns (GetRespons) {}
+}
+
+message SendRequest {
+	string requestName = 1;
+	string requestURL = 2;
+	string requestMethod = 3;
+	string contentType = 4;
+	body<string, string> map = 5; 
+	header<string, string> map = 6;
+	bool isPress = 7;
+	string runTime = 8;
+	string runTimes = 9;
+	int64 concurrentNumber = 10;
+}
+
+message GetRespons {
+	
+}
