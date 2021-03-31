@@ -18,7 +18,7 @@ message SendRequest {
 	bool isPress = 7;
 	string runTime = 8;
 	string runTimes = 9;
-	int64 concurrentNumber = 10;
+	int64 Concurrency = 10;
 }
 
 message GetRespons {
