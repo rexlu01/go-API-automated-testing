@@ -1,11 +1,8 @@
 syntax = "proto3";
-import "google/protobuf/any.proto";
-
-
 package go.micro.srv.requestapi;
 
-service ReqApi {
-	rpc Rapi(SendRequest) returns (GetRespons) {}
+service SendAPI {
+	rpc ProcessAPI(SendRequest) returns (GetRespons) {}
 }
 
 message SendRequest {
@@ -22,5 +19,12 @@ message SendRequest {
 }
 
 message GetRespons {
-	
+     map<string,string> responsHeader = 1;
+	 map<string,string> responsBody = 2;
+	 int64 statusCode = 3;
+	 bool isPress = 4;
+	 map<string, string> tpsSet = 5;
+	 map<string, string> executeNum = 6;
+	 map<string, string> responseTime = 7;
+	 float exeuteTime = 8;
 }
