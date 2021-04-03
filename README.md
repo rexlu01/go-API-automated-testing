@@ -26,6 +26,7 @@ go 实现针对Http(后续加grpc协议)接口的自动化测试和压测工具�
 * 生成接口文件普通：protoc --proto_path=. --go_out=. --micro_out=. */*.proto
 * 需要研究一下TPS的计算方式，用总次数/总时间这样算不准（todo）
 * 需要研究下*any.Any类型怎么传值
+* protobuf生成golang代码：protoc --proto_path=. --go_out=. proto/*.proto
 
 ### 未完待续ing...
 
