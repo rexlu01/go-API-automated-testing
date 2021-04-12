@@ -69,11 +69,15 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 		go RunTimeReq(reqinfo, finish, elapsedChin, reqnumChin)
 	}
 
-	func() {
-		for {
-			<-finish
-		}
-	}()
+	for {
+		<-finish
+	}
+
+	// go func() {
+	// 	for {
+	// 		<-finish
+	// 	}
+	// }()
 	close(elapsedChin)
 	close(reqnumChin)
 
@@ -115,7 +119,7 @@ func main() {
 	totalfinish := make(chan bool)
 	elapsedAVG, SuccessRate := ConcurrencyRunAndTotal(reqinfo, finish, elapsedChin, reqnumChin, totalfinish)
 
-	func() {
+	go func() {
 		for {
 			<-totalfinish
 		}
