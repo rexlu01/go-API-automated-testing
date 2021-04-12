@@ -33,35 +33,31 @@ func SendRequest(reqinfo RequestInfo, elapsedChin chan float64, reqnumChin chan 
 	}
 	defer resp.Body.Close()
 	elapsed := time.Since(start).Seconds()
+	elapsedChin <- elapsed
 
 	if resp.StatusCode == 200 {
-		elapsedChin <- elapsed
 		reqnumChin <- true
-		return
+	} else {
+		reqnumChin <- false
 	}
-	elapsedChin <- elapsed
-	reqnumChin <- false
-	return
+
 }
 
 func RunTimeReq(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool) {
 	timeout := time.After(time.Second * time.Duration(reqinfo.executionTime))
-	//finish = make(chan bool, reqinfo.Concurrency)
-
 	go func() {
 		for {
 			select {
 			case <-timeout:
 				fmt.Println("timeout")
 				finish <- true
-				return
 			default:
 				SendRequest(reqinfo, elapsedChin, reqnumChin)
 			}
 		}
 	}()
-
-	finish <- true
+	//close(finish)
+	fmt.Println("Finish")
 
 }
 
@@ -73,13 +69,14 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 		go RunTimeReq(reqinfo, finish, elapsedChin, reqnumChin)
 	}
 
-	go func() {
+	func() {
 		for {
 			<-finish
 		}
 	}()
 	close(elapsedChin)
 	close(reqnumChin)
+
 	totalNum := len(reqnumChin)
 
 	for eltime := range elapsedChin {
@@ -87,7 +84,7 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 	}
 
 	for isscuess := range reqnumChin {
-		if isscuess == true {
+		if isscuess {
 			successtreqotal++
 		}
 	}
@@ -118,7 +115,7 @@ func main() {
 	totalfinish := make(chan bool)
 	elapsedAVG, SuccessRate := ConcurrencyRunAndTotal(reqinfo, finish, elapsedChin, reqnumChin, totalfinish)
 
-	go func() {
+	func() {
 		for {
 			<-totalfinish
 		}
