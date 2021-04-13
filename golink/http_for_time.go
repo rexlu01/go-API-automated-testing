@@ -69,15 +69,11 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 		go RunTimeReq(reqinfo, finish, elapsedChin, reqnumChin)
 	}
 
-	for {
-		<-finish
-	}
-
-	// go func() {
-	// 	for {
-	// 		<-finish
-	// 	}
-	// }()
+	go func() {
+		for {
+			<-finish
+		}
+	}()
 	close(elapsedChin)
 	close(reqnumChin)
 
