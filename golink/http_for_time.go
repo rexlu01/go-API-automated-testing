@@ -45,23 +45,25 @@ func SendRequest(reqinfo RequestInfo, elapsedChin chan float64, reqnumChin chan 
 
 func RunTimeReq(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool) {
 	timeout := time.After(time.Second * time.Duration(reqinfo.executionTime))
+	loopchan := make(chan bool)
 	go func() {
 		for {
 			select {
 			case <-timeout:
 				fmt.Println("timeout")
-				finish <- true
+				loopchan <- true
+				return
 			default:
 				SendRequest(reqinfo, elapsedChin, reqnumChin)
 			}
 		}
 	}()
-	//close(finish)
+	<-loopchan
+	finish <- true
 	fmt.Println("Finish")
-
 }
 
-func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool, totalfinish chan bool) (float64, float64) {
+func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool, totalfinish chan bool, totalelapsedAVG chan float64, totalSuccessRate chan float64) {
 	var totaleltime float64
 	var successtreqotal int64
 
@@ -70,12 +72,12 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 	}
 
 	go func() {
-		for {
+		for j := 0; j < int(reqinfo.Concurrency); j++ {
 			<-finish
 		}
+		close(elapsedChin)
+		close(reqnumChin)
 	}()
-	close(elapsedChin)
-	close(reqnumChin)
 
 	totalNum := len(reqnumChin)
 
@@ -95,10 +97,10 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 	//成功率
 	SuccessRate := float64(successtreqotal) / float64(totalNum)
 
+	totalelapsedAVG <- elapsedAVG
+	totalSuccessRate <- SuccessRate
+
 	totalfinish <- true
-
-	return elapsedAVG, SuccessRate
-
 }
 
 func main() {
@@ -113,17 +115,20 @@ func main() {
 	elapsedChin := make(chan float64, 80000)
 	reqnumChin := make(chan bool, 80000)
 	totalfinish := make(chan bool)
-	elapsedAVG, SuccessRate := ConcurrencyRunAndTotal(reqinfo, finish, elapsedChin, reqnumChin, totalfinish)
+	totalelapsedAVG := make(chan float64, 1)
+	totalSuccessRate := make(chan float64, 1)
+	go ConcurrencyRunAndTotal(reqinfo, finish, elapsedChin, reqnumChin, totalfinish, totalelapsedAVG, totalSuccessRate)
 
 	go func() {
 		for {
 			<-totalfinish
 		}
-		//close(totalfinish)
 	}()
 
-	fmt.Println(elapsedAVG)
-	fmt.Println()
-	fmt.Println(SuccessRate)
+	elapsedAVG := <-totalelapsedAVG
+	SuccessRate := <-totalSuccessRate
+
+	fmt.Printf("%v\n", elapsedAVG)
+	fmt.Printf("%v\n", SuccessRate)
 
 }
