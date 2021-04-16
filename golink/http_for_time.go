@@ -66,6 +66,7 @@ func RunTimeReq(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64,
 func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool, totalfinish chan bool, totalelapsedAVG chan float64, totalSuccessRate chan float64) {
 	var totaleltime float64
 	var successtreqotal int64
+	totalNum := 0
 
 	for i := 0; i < int(reqinfo.Concurrency); i++ {
 		go RunTimeReq(reqinfo, finish, elapsedChin, reqnumChin)
@@ -79,16 +80,15 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 		close(reqnumChin)
 	}()
 
-	totalNum := len(reqnumChin)
-
 	for eltime := range elapsedChin {
 		totaleltime += eltime
 	}
-
+	totalNum = len(reqnumChin)
 	for isscuess := range reqnumChin {
 		if isscuess {
 			successtreqotal++
 		}
+		//totalNum++
 	}
 
 	//计算平均响应时间
@@ -128,7 +128,7 @@ func main() {
 	elapsedAVG := <-totalelapsedAVG
 	SuccessRate := <-totalSuccessRate
 
-	fmt.Printf("%v\n", elapsedAVG)
+	fmt.Printf("%v\n", elapsedAVG) //单位s
 	fmt.Printf("%v\n", SuccessRate)
 
 }
