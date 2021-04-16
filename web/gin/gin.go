@@ -86,14 +86,3 @@ func main() {
 	}
 
 }
-
-// func main() {
-
-// 	router := gin.Default()
-// 	router.GET("/", gin.WrapF(index))
-// 	router.GET("/image", gin.WrapF(image))
-
-// 	go monitor.Run()
-
-// 	router.Run(":8083")
-// }
