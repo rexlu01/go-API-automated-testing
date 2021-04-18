@@ -12,4 +12,5 @@ require (
 	github.com/micro/go-micro/v2 v2.9.1
 	github.com/shirou/gopsutil v3.21.1+incompatible
 	gonum.org/v1/plot v0.8.1
+	google.golang.org/protobuf v1.26.0
 )
