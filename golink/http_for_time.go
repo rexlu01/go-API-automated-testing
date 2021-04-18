@@ -1,5 +1,5 @@
 /*
-按时间跑压测的实例,还有bug。
+按时间跑压测的实例,已修复。补充按次数跑案例
 */
 package main
 
@@ -19,10 +19,12 @@ type Promtest interface {
 }
 
 type RequestInfo struct {
-	url           string
-	method        string
-	Concurrency   int64
-	executionTime int64 `单位秒`
+	url                string
+	method             string
+	Concurrency        int64
+	executionType      int16 `1为执行时间，2为执行次数`
+	executionfrequency int64 `执行次数, 如果执行type为1时，这个值为0`
+	executionTime      int64 `单位秒，如果执行type为0时，这个值为0`
 }
 
 func SendRequest(reqinfo RequestInfo, elapsedChin chan float64, reqnumChin chan bool) {
@@ -40,7 +42,20 @@ func SendRequest(reqinfo RequestInfo, elapsedChin chan float64, reqnumChin chan 
 	} else {
 		reqnumChin <- false
 	}
+}
 
+func RunNumsReq(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool) {
+	loopchan := make(chan bool)
+	var i int64
+	go func() {
+		for i = 0; i < reqinfo.executionfrequency; i++ {
+			SendRequest(reqinfo, elapsedChin, reqnumChin)
+		}
+		loopchan <- true
+	}()
+	<-loopchan
+	finish <- true
+	fmt.Println("req Finish")
 }
 
 func RunTimeReq(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool) {
@@ -60,7 +75,7 @@ func RunTimeReq(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64,
 	}()
 	<-loopchan
 	finish <- true
-	fmt.Println("Finish")
+	fmt.Println("req Finish")
 }
 
 func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin chan float64, reqnumChin chan bool, totalfinish chan bool, totalelapsedAVG chan float64, totalSuccessRate chan float64) {
@@ -68,8 +83,14 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 	var successtreqotal int64
 	totalNum := 0
 
-	for i := 0; i < int(reqinfo.Concurrency); i++ {
-		go RunTimeReq(reqinfo, finish, elapsedChin, reqnumChin)
+	if reqinfo.executionType == 1 {
+		for i := 0; i < int(reqinfo.Concurrency); i++ {
+			go RunTimeReq(reqinfo, finish, elapsedChin, reqnumChin)
+		}
+	} else if reqinfo.executionType == 2 {
+		for i := 0; i < int(reqinfo.Concurrency); i++ {
+			go RunNumsReq(reqinfo, finish, elapsedChin, reqnumChin)
+		}
 	}
 
 	go func() {
@@ -106,10 +127,14 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 func main() {
 	//初始化结构体
 	var reqinfo RequestInfo
-	reqinfo.executionTime = 2
+	//reqinfo.executionTime = 2
+	//按次数试一把
+	reqinfo.executionType = 2
+	reqinfo.executionfrequency = 2000
 	reqinfo.method = "GET"
 	reqinfo.url = "http://47.115.20.3:81/ping"
 	reqinfo.Concurrency = 10
+
 	//定义协程
 	finish := make(chan bool, reqinfo.Concurrency)
 	elapsedChin := make(chan float64, 80000)
