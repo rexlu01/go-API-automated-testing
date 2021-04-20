@@ -4,11 +4,16 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	pb "go-api-automated-testing/golink/server/proto"
 	"net/http"
 	"time"
 )
+
+type SendAPI struct {
+}
 
 var numCores = flag.Int("n", 2, "number of CPU cores to use")
 
@@ -155,5 +160,9 @@ func main() {
 
 	fmt.Printf("%v\n", elapsedAVG) //单位s
 	fmt.Printf("%v\n", SuccessRate)
+
+}
+
+func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.GetRespons) error {
 
 }
