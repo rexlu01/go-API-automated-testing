@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
+	pb "go-api-automated-testing/web/server/proto"
 	"log"
 	"time"
-	pb "go-api-automated-testing/web/server/proto"
 
 	"github.com/micro/go-micro"
 )
@@ -15,7 +15,6 @@ type Fweb struct {
 func (g *Fweb) MakeWeb(ctx context.Context, req *pb.FrontRequest, rsp *pb.FrontRespons) error {
 	rsp.Msg = "this is response " + req.Name
 	return nil
-
 }
 
 func main() {
