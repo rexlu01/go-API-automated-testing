@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>GoWeb</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	  <link rel="stylesheet" href="../static/css/main.css" />
+	  <noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
+      <meta charset="UTF-8">
+      <script type="text/javascript">
+
+      // 编写一个函数，供添加按钮调用，动态在表格的最后一行添加子节点；
+      function addOne(){         
+         var tbody = document.getElementById('table');  
+         var tr = document.createElement('tr');  
+         
+         var td = document.createElement("td");
+         tr.innerHTML = "<input type='text' placeholder='key'/>";
+         tbody.appendChild(td);
+         
+         td = document.createElement("td");  
+         td.innerHTML = "<input type='text' placeholder='value'/>";
+         tr.appendChild(td);
+         
+         td = document.createElement("td"); 
+         td.innerHTML = "<a href='javascript:;' onclick='removeRow(this)'>DELETE</a>";
+         tr.appendChild(td);         
+         tbody.appendChild(tr);   
+     }
+     // 创建删除函数
+     function removeRow(obj){
+        var tbody = document.getElementById('table');  
+        var tr = obj.parentNode.parentNode;
+        tbody.removeChild(tr);
+    }
+    //添加header
+    function addOneHeader(){         
+         var tbody = document.getElementById('headert');  
+         var tr = document.createElement('tr');  
+         
+         var td = document.createElement("td");
+         tr.innerHTML = "<input type='text' placeholder='key'/>";
+         tbody.appendChild(td);
+         
+         td = document.createElement("td");  
+         td.innerHTML = "<input type='text' placeholder='value'/>";
+         tr.appendChild(td);
+         
+         td = document.createElement("td"); 
+         td.innerHTML = "<a href='javascript:;' onclick='removeRowHeader(this)'>DELETE</a>";
+         tr.appendChild(td);         
+         tbody.appendChild(tr);   
+     }
+     // 创建删除函数
+     function removeRowHeader(obj){
+        var tbody = document.getElementById('headert');  
+        var tr = obj.parentNode.parentNode;
+        tbody.removeChild(tr);
+    }
+    
+    //点击redio button选择功能测试还是性能测试
+    function operation(val) {
+	var radioValue = val.value;
+	if (radioValue == 1) {		
+		var sel = document.getElementById('national');
+		sel.style= "visibility:hidden;";
+		var priolid = document.getElementById('demo-priority-low');
+		priolid.style= "visibility:hidden;";
+		var prioidnid = document.getElementById('demo-priority-normal');
+		prioidnid.style= "visibility:hidden;";
+		var timelid = document.getElementById('time-priority-low');
+		timelid.style= "visibility:hidden;";
+		var timenid = document.getElementById('time-priority-normal');
+		timenid.style= "visibility:hidden;";
+		var number = document.getElementById('numbid');
+		number.style= "visibility:hidden;";
+	}else if (radioValue == 2) {
+		var sel = document.getElementById('national');
+		sel.style="visibility:show;";
+		sel.placeholder = "次数/时长";
+		var priolid = document.getElementById('demo-priority-low');
+		priolid.style= "visibility:show;";
+		var prioidnid = document.getElementById('demo-priority-normal');
+		prioidnid.style= "visibility:show;";
+		var timelid = document.getElementById('time-priority-low');
+		timelid.style= "visibility:show;";
+		var timenid = document.getElementById('time-priority-normal');
+		timenid.style= "visibility:show;";
+		var number = document.getElementById('numbid');
+		number.style= "visibility:show;";
+	}
+
+}
+    </script>
+ </head>
+<body> 
+
+    <!--- Wrapper -->
+        <div id="Wrapper">
+
+            	<!-- Footer -->
+				<footer id="footer">
+					<section>
+                        <ul class="icons alt">
+                            <li><a href="https://github.com/rexlu01/go-API-automated-testing" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                        </ul>
+                        <h2>Form</h2> 
+                        <form method="post" id = "post" action="#">
+                            <div class="row gtr-uniform">
+                                <div class="col-12 col-12-xsmall">
+									<label for="name">Requests Name</label>
+									<input type="text" name="name" id="name" />
+								</div>
+                                <div class="col-3 col-12-xsmall">
+                                    <h3>Method</h3>
+                                    <select name="method" id="method">
+                                        <option value="">- Category -</option>
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="HEAD">HEAD</option>
+                                        <option value="OPTIONS">OPTIONS</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="PATCH">PATCH</option>
+                                        <option value="DELETE">DELETE</option>
+                                        <option value="TRACE">TRACE</option>
+                                        <option value="CONNECT">CONNECT</option>
+                                    </select>
+                                </div>
+                                <div class="col-9 col-12-xsmall">
+                                    <h3>URL</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="" placeholder="http(s)://..." />
+                                </div>
+
+                                <!-- Break -->
+                                <div class="col-12">
+                                    <h3>Content Type</h3>
+                                    <select name="demo-category" id="demo-category">
+                                        <option value="">- Category -</option>
+                                        <option value="json">application/json</option>
+                                        <option value="ld">application/ld+json</option>
+                                        <option value="hal">application/hal+json</option>
+                                        <option value="vnd.api">application/vnd.api+json</option>
+                                    </select>
+                                </div>
+                                <!-- add -->
+                                <div  class="col-5 col-12-xsmall">
+                                    <h3>Request Body</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="key..."/>
+                                </div>
+                                <div  class="col-5 col-12-xsmall">
+                                    <h3 style="visibility:hidden;">pass</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="value..."/>
+                                </div>
+                                <div  class="col-12 col-12-xsmall">
+                                    <table width="100%" id="table">
+
+                                    </table>
+                                        <input type="button" value="add" onclick="addOne()" /> 
+                                </div>
+                                <!--header-->
+                                <div  class="col-5 col-12-xsmall">
+                                    <h3>header</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="key..."/>
+                                </div>
+                                <div  class="col-5 col-12-xsmall">
+                                    <h3 style="visibility:hidden;">pass</h3>
+                                    <input type="email" name="demo-url" id="demo-url" value="value..."/>
+                                </div>
+                                <div  class="col-12 col-12-xsmall">
+                                    <table width="100%" id="headert">
+
+                                    </table>
+                                        <input type="button" value="add" onclick="addOneHeader()" /> 
+                                </div>
+                                <!--switch-->
+                                
+                                <div  class="col-6 col-12-xsmall">
+                                    <input id="a" type="radio" name="mt" value="1" onclick="operation(this);" >
+                                    <label for="a" class="mwriw_d_r"> 接口功能测试</label>
+                                </div>
+                                <div class="col-6 col-12-small">
+                                    <input id="b" type="radio" name="mt" value="2" onclick="operation(this);" checked>
+                                    <label for="b" class="mwriw_d_r"> 接口性能测试</label>
+                                </div>
+                               
+                                <!-- select  -->
+                                <div class="col-12 col-12-small">
+                                    <input type="radio" id="demo-priority-low" name="demo-priority" checked>
+                                    <label id="time-priority-low" for="demo-priority-low">时长(s)</label>
+                                </div>
+                                <div class="col-12 col-12-small">
+                                    <input type="radio" id="demo-priority-normal" name="demo-priority">
+                                    <label id="time-priority-normal" for="demo-priority-normal">次数(次)</label>
+                                </div>
+                                <div class="col-12 col-12-small">
+                                    <input type="email" name="demo-url" id="national" value=""/>
+                                </div> 
+                                <div >
+                                    <input type="email" name="numb-url" id="numbid" value="并发数.."/>
+                                </div> 
+                                <!-- submit -->
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="run" class="primary" /></li>
+                                        <li><input type="reset" value="Reset" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                        <hr />
+                    
+					</section>
+                </footer>
+        </div>
+  		<!-- Scripts -->
+          <script src="../static/js/jquery.min.js"></script>
+          <script src="../static/js/jquery.scrollex.min.js"></script>
+          <script src="../static/js/jquery.scrolly.min.js"></script>
+          <script src="../static/js/browser.min.js"></script>
+          <script src="../static/js/breakpoints.min.js"></script>
+          <script src="../static/js/util.js"></script>
+          <script src="../static/js/main.js"></script>
+</body>
+</html>
