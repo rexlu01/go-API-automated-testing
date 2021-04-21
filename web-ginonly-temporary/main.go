@@ -2,11 +2,28 @@ package main
 
 import (
 	"fmt"
+	"go-api-automated-testing/web/mon"
+	"html/template"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+var monit mon.Monitor
+
+func Index(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("html/monitor.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	t.Execute(w, nil)
+}
+
+func Image(w http.ResponseWriter, r *http.Request) {
+	monit.WriteTo(w)
+}
 
 func main() {
 
@@ -16,6 +33,11 @@ func main() {
 	ginRouter.Static("/static", "./static")
 	ginRouter.GET("/sendmweb/", SendMweb)
 	ginRouter.POST("/form", From)
+
+	ginRouter.GET("/monit", gin.WrapF(Index))
+	ginRouter.GET("/image", gin.WrapF(Image))
+
+	go monit.Run()
 	ginRouter.Run(":5656")
 }
 
