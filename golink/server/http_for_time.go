@@ -164,5 +164,20 @@ func main() {
 }
 
 func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.GetRespons) error {
+	//初始化结构体
+	var reqinfo RequestInfo
+	reqinfo.url = req.RequestURL
+
+	if req.IsPress {
+		if req.RunTimes == "0" {
+			reqinfo.executionType = 1
+		} else if req.RunTime == "0" {
+			reqinfo.executionType = 2
+		}
+	}
+
+	req.RequestName = "ping/pong test"
+
+	return nil
 
 }
