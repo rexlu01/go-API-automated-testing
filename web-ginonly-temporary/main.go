@@ -26,6 +26,7 @@ func Image(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	monit.MaxRecord = 50
 
 	ginRouter := gin.Default()
 	ginRouter.LoadHTMLGlob("html/*")

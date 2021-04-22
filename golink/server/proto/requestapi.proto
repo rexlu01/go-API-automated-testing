@@ -10,7 +10,7 @@ message SendRequest {
 	string requestName = 1;
 	string requestURL = 2;
 	string requestMethod = 3;
-	string contentType = 4;
+	string contentType = 4; 
 	map<string, string> body = 5; 
 	map<string, string> header = 6;
 	bool isPress = 7;

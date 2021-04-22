@@ -27,6 +27,7 @@ go 实现针对Http(后续加grpc协议)接口的自动化测试和压测工具�
 * 需要研究下*any.Any类型怎么传值
 * protobuf生成golang代码：protoc --proto_path=. --go_out=. proto/*.proto
 * 过程想复杂了，最多4个微服务搞定
+* web-ginonly-temporary 里的监控不显示数据
 
 ### 未完待续ing...
 
