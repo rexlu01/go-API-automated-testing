@@ -44,17 +44,6 @@ func main() {
 
 func SendMweb(c *gin.Context) {
 	log.Print("Received Start.SendMessage API Request")
-	//name := c.Param("name")
-
-	// response, err := cl.MakeWeb(context.TODO(), &pb.FrontRequest{
-	// 	Name: name,
-	// })
-
-	// if err != nil {
-	// 	c.JSON(500, err)
-	// }
-
-	//c.HTML(200, "index.html", gin.H{"title": response})
 
 	c.HTML(200, "index.html", gin.H{})
 }
