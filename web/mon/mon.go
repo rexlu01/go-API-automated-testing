@@ -21,14 +21,6 @@ type Monitor struct {
 	Lock      sync.Mutex
 }
 
-// func NewMonitor(max int) *Monitor {
-// 	return &Monitor{
-// 		MaxRecord: max,
-// 	}
-// }
-
-// var monitor = NewMonitor(50)
-
 func (m *Monitor) Collect() {
 	mem, err := mem.VirtualMemory()
 	if err != nil {
