@@ -15,7 +15,7 @@ import (
 type SendAPI struct {
 }
 
-var numCores = flag.Int("n", 2, "number of CPU cores to use")
+var numCores = flag.Int("n", 1, "number of CPU cores to use")
 
 type Promtest interface {
 	SendRequest()
