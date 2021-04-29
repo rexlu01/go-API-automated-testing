@@ -179,7 +179,6 @@ func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.
 	req.RequestName = "ping/pong test"
 	req.RequestURL = "http://47.115.20.3:81/ping"
 	req.RequestMethod = "GET"
-	req.IsPress = true
 
 	return nil
 
