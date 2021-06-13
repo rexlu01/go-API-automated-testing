@@ -14,8 +14,8 @@ message SendRequest {
 	map<string, string> body = 5; 
 	map<string, string> header = 6;
 	bool isPress = 7;
-	string runTime = 8;
-	string runTimes = 9;
+	int64 runTime = 8;
+	int64 runTimes = 9;
 	int64 Concurrency = 10;
 }
 

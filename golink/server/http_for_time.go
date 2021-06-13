@@ -4,8 +4,10 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	pb "go-api-automated-testing/golink/server/proto"
 	"net/http"
 	"time"
 )
@@ -161,23 +163,35 @@ func main() {
 
 }
 
-// func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.GetRespons) error {
-// 	//初始化结构体
-// 	var reqinfo RequestInfo
-// 	reqinfo.url = req.RequestURL
+//这里要做成一个服务
+func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.GetRespons) error {
+	//初始化结构体
+	var reqinfo RequestInfo
+	reqinfo.url = req.RequestURL
 
-// 	if req.IsPress {
-// 		if req.RunTimes == "0" {
-// 			reqinfo.executionType = 1
-// 		} else if req.RunTime == "0" {
-// 			reqinfo.executionType = 2
-// 		}
-// 	}
+	if req.IsPress {
+		if req.RunTimes == "0" {
+			reqinfo.executionType = 1
+		} else if req.RunTime == "0" {
+			reqinfo.executionType = 2
+		}
+	}
 
-// 	req.RequestName = "ping/pong test"
-// 	req.RequestURL = "http://47.115.20.3:81/ping"
-// 	//req.RequestMethod = "GET"
+	req.RequestName = "ping/pong test"
+	req.RequestURL = "http://47.115.20.3:81/ping"
+	req.RequestMethod = "GET"
+	req.IsPress = true
+	req.RunTime = "0"
+	req.RunTimes = "2"
+	req.Concurrency = 2
 
-// 	return nil
+	//按次数试一把
+	reqinfo.executionType = 2
+	reqinfo.executionfrequency = req.RunTimes
+	reqinfo.method = "GET"
+	reqinfo.url = "http://47.115.20.3:81/ping"
+	reqinfo.Concurrency = 2
 
-// }
+	return nil
+
+}
