@@ -170,9 +170,9 @@ func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.
 	reqinfo.url = req.RequestURL
 
 	if req.IsPress {
-		if req.RunTimes == "0" {
+		if req.RunTimes == 0 {
 			reqinfo.executionType = 1
-		} else if req.RunTime == "0" {
+		} else if req.RunTime == 0 {
 			reqinfo.executionType = 2
 		}
 	}
@@ -181,8 +181,8 @@ func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.
 	req.RequestURL = "http://47.115.20.3:81/ping"
 	req.RequestMethod = "GET"
 	req.IsPress = true
-	req.RunTime = "0"
-	req.RunTimes = "2"
+	req.RunTime = 0
+	req.RunTimes = 2
 	req.Concurrency = 2
 
 	//按次数试一把
