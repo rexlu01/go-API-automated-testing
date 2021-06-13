@@ -8,8 +8,12 @@ import (
 	"flag"
 	"fmt"
 	pb "go-api-automated-testing/golink/server/proto"
+	"log"
 	"net/http"
 	"time"
+
+	"github.com/micro/go-micro/server"
+	"github.com/micro/go-micro/v2"
 )
 
 type SendAPI struct {
@@ -129,16 +133,66 @@ func ConcurrencyRunAndTotal(reqinfo RequestInfo, finish chan bool, elapsedChin c
 	totalfinish <- true
 }
 
-func main() {
+// func main() {
+// 	//初始化结构体
+// 	var reqinfo RequestInfo
+// 	//reqinfo.executionTime = 2
+// 	//按次数试一把
+// 	reqinfo.executionType = 2
+// 	reqinfo.executionfrequency = 2
+// 	reqinfo.method = "GET"
+// 	reqinfo.url = "http://47.115.20.3:81/ping"
+// 	reqinfo.Concurrency = 2
+
+// 	//定义协程
+// 	finish := make(chan bool, reqinfo.Concurrency)
+// 	elapsedChin := make(chan float64, 80000)
+// 	reqnumChin := make(chan bool, 80000)
+// 	totalfinish := make(chan bool)
+// 	totalelapsedAVG := make(chan float64, 1)
+// 	totalSuccessRate := make(chan float64, 1)
+// 	go ConcurrencyRunAndTotal(reqinfo, finish, elapsedChin, reqnumChin, totalfinish, totalelapsedAVG, totalSuccessRate)
+
+// 	go func() {
+// 		for {
+// 			<-totalfinish
+// 		}
+// 	}()
+
+// 	elapsedAVG := <-totalelapsedAVG
+// 	SuccessRate := <-totalSuccessRate
+
+// 	fmt.Printf("%v\n", elapsedAVG) //单位s
+// 	fmt.Printf("%v\n", SuccessRate)
+
+// }
+
+//这里要做成一个服务
+func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.GetRespons) error {
 	//初始化结构体
 	var reqinfo RequestInfo
-	//reqinfo.executionTime = 2
+
+	req.RequestName = "ping/pong test"
+	req.RequestURL = "http://47.115.20.3:81/ping"
+	req.RequestMethod = "GET"
+	req.IsPress = true
+	req.RunTime = 0
+	req.RunTimes = 2
+	req.Concurrency = 2
+
+	if req.IsPress {
+		if req.RunTimes == 0 {
+			reqinfo.executionType = 1
+		} else if req.RunTime == 0 {
+			reqinfo.executionType = 2
+		}
+	}
+
 	//按次数试一把
-	reqinfo.executionType = 2
-	reqinfo.executionfrequency = 2
-	reqinfo.method = "GET"
-	reqinfo.url = "http://47.115.20.3:81/ping"
-	reqinfo.Concurrency = 2
+	reqinfo.executionfrequency = req.RunTimes
+	reqinfo.method = req.RequestMethod
+	reqinfo.url = req.RequestURL
+	reqinfo.Concurrency = req.Concurrency
 
 	//定义协程
 	finish := make(chan bool, reqinfo.Concurrency)
@@ -155,43 +209,28 @@ func main() {
 		}
 	}()
 
-	elapsedAVG := <-totalelapsedAVG
-	SuccessRate := <-totalSuccessRate
+	resp.ResponseTime = <-totalelapsedAVG
+	resp.SuccessRate = <-totalSuccessRate
 
-	fmt.Printf("%v\n", elapsedAVG) //单位s
-	fmt.Printf("%v\n", SuccessRate)
+	fmt.Printf("%v\n", resp) //单位s
+
+	return nil
 
 }
 
-//这里要做成一个服务
-func (g *SendAPI) ProcessAPI(ctx context.Context, req *pb.SendRequest, resp *pb.GetRespons) error {
-	//初始化结构体
-	var reqinfo RequestInfo
-	reqinfo.url = req.RequestURL
+func main() {
+	service := micro.NewService(
+		micro.Name("go.micro.srv.requestapi"),
+		micro.RegisterTTL(time.Second*30),
+		micro.RegisterInterval(time.Second*10),
+	)
 
-	if req.IsPress {
-		if req.RunTimes == 0 {
-			reqinfo.executionType = 1
-		} else if req.RunTime == 0 {
-			reqinfo.executionType = 2
-		}
+	service.Init()
+
+	pb.RegisterSendAPIHandler(server.NewServer(), new(SendAPI))
+
+	if err := service.Run(); err != nil {
+		log.Fatal(err)
 	}
-
-	req.RequestName = "ping/pong test"
-	req.RequestURL = "http://47.115.20.3:81/ping"
-	req.RequestMethod = "GET"
-	req.IsPress = true
-	req.RunTime = 0
-	req.RunTimes = 2
-	req.Concurrency = 2
-
-	//按次数试一把
-	reqinfo.executionType = 2
-	reqinfo.executionfrequency = req.RunTimes
-	reqinfo.method = "GET"
-	reqinfo.url = "http://47.115.20.3:81/ping"
-	reqinfo.Concurrency = 2
-
-	return nil
 
 }

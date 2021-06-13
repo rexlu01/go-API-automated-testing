@@ -26,6 +26,7 @@ message GetRespons {
 	 bool isPress = 4;
 	 map<string, string> tpsSet = 5;
 	 map<string, string> executeNum = 6;
-	 map<string, string> responseTime = 7;
-	 float exeuteTime = 8;
+	 double responseTime = 7;
+	 double exeuteTime = 8;
+	 double SuccessRate = 9;
 }
