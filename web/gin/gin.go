@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	pbh "go-api-automated-testing/golink/server/proto"
 	pb "go-api-automated-testing/web/server/proto"
+
 	"html/template"
 	"log"
 	"net/http"
@@ -10,7 +12,7 @@ import (
 	"go-api-automated-testing/web/mon"
 
 	"github.com/gin-gonic/gin"
-	"github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/v2/client"
 	"github.com/micro/go-micro/web"
 )
 
@@ -18,7 +20,8 @@ type Fweb struct {
 }
 
 var (
-	cl pb.FwebService
+	cl  pb.FwebService
+	clh pbh.SendAPIService
 )
 
 var monit mon.Monitor
@@ -30,6 +33,9 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 	response, err := cl.MakeWeb(context.TODO(), &pb.FrontRequest{
 		Name: name,
 	})
+
+	dataServer := pbh.NewSendAPIService("go.micro.srv.requestapi", client.Client)
+	dataServer.ProcessAPI()
 
 	if err != nil {
 		c.JSON(500, err)
@@ -71,6 +77,7 @@ func main() {
 	ginRouter.Static("/static", "./static")
 
 	ginRouter.GET("/sendmweb/:name", mweb.SendMweb)
+	ginRouter.GET("/sendMstore")
 
 	ginRouter.GET("/monit", gin.WrapF(Index))
 	ginRouter.GET("/image", gin.WrapF(Image))
