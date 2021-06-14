@@ -5,7 +5,6 @@ import (
 	"fmt"
 	pbh "go-api-automated-testing/golink/server/proto"
 	pb "go-api-automated-testing/web/server/proto"
-
 	"html/template"
 	"log"
 	"net/http"
@@ -14,15 +13,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/v2/client"
-	"github.com/micro/go-micro/web"
+	"github.com/micro/go-micro/v2/web"
 )
 
 type Fweb struct {
 }
 
 var (
-	cl  pb.FwebService
-	clh pbh.SendAPIService
+	cl pb.FwebService
+	//clh pbh.SendAPIService
 )
 
 var monit mon.Monitor
@@ -36,9 +35,8 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 	})
 
 	dataServer := pbh.NewSendAPIService("go.micro.srv.requestapi", client.DefaultClient)
-	dataResp, err := dataServer.ProcessAPI(c, &pbh.SendRequest{})
+	dataResp, err := dataServer.ProcessAPI(c, &pbh.SendRequest{RequestName: "ping/pong test", RequestURL: "http://47.115.20.3:81/ping", RequestMethod: "GET", IsPress: true, RunTime: 0, RunTimes: 2, Concurrency: 2})
 	fmt.Println(dataResp.SuccessRate)
-
 	if err != nil {
 		c.JSON(500, err)
 	}

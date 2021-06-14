@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 )
 
 type Fweb struct {
