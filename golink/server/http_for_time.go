@@ -12,7 +12,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/micro/go-micro/server"
 	"github.com/micro/go-micro/v2"
 )
 
@@ -227,7 +226,7 @@ func main() {
 
 	service.Init()
 
-	pb.RegisterSendAPIHandler(server.NewServer(), new(SendAPI))
+	pb.RegisterSendAPIHandler(service.Server(), new(SendAPI))
 
 	if err := service.Run(); err != nil {
 		log.Fatal(err)

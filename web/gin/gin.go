@@ -30,18 +30,21 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 	log.Print("Received Start.SendMessage API Request")
 	name := c.Param("name")
 
-	response, err := cl.MakeWeb(context.TODO(), &pb.FrontRequest{
+	_, err := cl.MakeWeb(context.TODO(), &pb.FrontRequest{
 		Name: name,
 	})
 
 	dataServer := pbh.NewSendAPIService("go.micro.srv.requestapi", client.DefaultClient)
 	dataResp, err := dataServer.ProcessAPI(c, &pbh.SendRequest{RequestName: "ping/pong test", RequestURL: "http://47.115.20.3:81/ping", RequestMethod: "GET", IsPress: true, RunTime: 0, RunTimes: 2, Concurrency: 2})
-	fmt.Println(dataResp.SuccessRate)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(dataResp.ResponseTime)
 	if err != nil {
 		c.JSON(500, err)
 	}
 
-	c.HTML(200, "index.html", gin.H{"title": response})
+	c.HTML(200, "index.html", gin.H{"title": dataResp.ResponseTime})
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
