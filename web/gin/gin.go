@@ -37,7 +37,7 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 
 	dataServer := pbh.NewSendAPIService("go.micro.srv.requestapi", client.DefaultClient)
 	dataResp, err := dataServer.ProcessAPI(c, &pbh.SendRequest{})
-	fmt.Println(dataResp)
+	fmt.Println(dataResp.SuccessRate)
 
 	if err != nil {
 		c.JSON(500, err)
