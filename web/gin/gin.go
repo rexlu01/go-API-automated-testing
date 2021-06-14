@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pbh "go-api-automated-testing/golink/server/proto"
 	pb "go-api-automated-testing/web/server/proto"
 
@@ -34,8 +35,9 @@ func (g *Fweb) SendMweb(c *gin.Context) {
 		Name: name,
 	})
 
-	dataServer := pbh.NewSendAPIService("go.micro.srv.requestapi", client.Client)
-	dataServer.ProcessAPI()
+	dataServer := pbh.NewSendAPIService("go.micro.srv.requestapi", client.DefaultClient)
+	dataResp, err := dataServer.ProcessAPI(c, &pbh.SendRequest{})
+	fmt.Println(dataResp)
 
 	if err != nil {
 		c.JSON(500, err)
